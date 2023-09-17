@@ -1,9 +1,7 @@
 import subprocess
 from datetime import datetime
+import ctypes    
 
-
-# create file for output
-output = open("output.txt", "w")
 
 # get pc serial number and model
 def PcInfoScraper():
@@ -35,11 +33,14 @@ def MonitorInfoScraper():
     """]).decode("utf-8")
     return result.strip()
 
-
 # get time
-now = datetime.now()
-dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+def time():
+    now = datetime.now()
+    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+    return dt_string
 
+# create file for output
+output = open("output.txt", "w")
 
 # write variables to file
 output.write("------ Komputer: ------\n")
@@ -47,5 +48,5 @@ output.write(PcInfoScraper())
 output.write("\n\n------ Monitory: ------\n")
 output.write(MonitorInfoScraper())
 output.write("\n"*3 + "------   Czas:   ------\n")
-output.write(dt_string)
+output.write(time())
 
