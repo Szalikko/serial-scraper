@@ -1,4 +1,5 @@
 import subprocess
+from datetime import datetime
 
 
 # create file for output
@@ -7,8 +8,9 @@ output = open("output.txt", "w")
 # get pc serial number and model
 def PcInfoScraper():
     serial = subprocess.check_output('powershell.exe Get-WmiObject win32_bios | select Serialnumber | Format-Table -HideTableHeaders').decode("utf-8")
+    manufacturer = subprocess.check_output('powershell.exe Get-WmiObject win32_bios | select Manufacturer | Format-Table -HideTableHeaders').decode("utf-8")
     model = subprocess.check_output('powershell.exe Get-CimInstance Win32_ComputerSystemProduct | Select Name | Format-Table -HideTableHeaders').decode("utf-8")
-    result = "Model        : " + model.strip() + "\nSerial       : " + serial.strip() + '\n'
+    result = "Manufacturer : " + manufacturer.strip() + "\nModel        : " + model.strip() + "\nSerial       : " + serial.strip() + '\n'
     return result
                     
 # get monitors serial and model name
@@ -34,11 +36,16 @@ def MonitorInfoScraper():
     return result.strip()
 
 
+# get time
+now = datetime.now()
+dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+
+
 # write variables to file
 output.write("------ Komputer: ------\n")
 output.write(PcInfoScraper())
-# output.write(model.strip()+'\n')
-# output.write(serial.strip()+'\n')
 output.write("\n\n------ Monitory: ------\n")
 output.write(MonitorInfoScraper())
+output.write("\n"*3 + "------   Czas:   ------\n")
+output.write(dt_string)
 
