@@ -5,9 +5,12 @@ import subprocess
 output = open("output.txt", "w")
 
 # get pc serial number and model
-serial = subprocess.check_output('powershell.exe Get-WmiObject win32_bios | select Serialnumber').decode("utf-8") 
-model = subprocess.check_output('powershell.exe Get-CimInstance Win32_ComputerSystemProduct | Select Name').decode("utf-8")
-
+def PcInfoScraper():
+    serial = subprocess.check_output('powershell.exe Get-WmiObject win32_bios | select Serialnumber | Format-Table -HideTableHeaders').decode("utf-8")
+    model = subprocess.check_output('powershell.exe Get-CimInstance Win32_ComputerSystemProduct | Select Name | Format-Table -HideTableHeaders').decode("utf-8")
+    result = "Model        : " + model.strip() + "\nSerial       : " + serial.strip() + '\n'
+    return result
+                    
 # get monitors serial and model name
 def MonitorInfoScraper():
     result = subprocess.check_output(["powershell.exe", """
@@ -25,14 +28,17 @@ def MonitorInfoScraper():
         $Name = Decode $Monitor.UserFriendlyName -notmatch 0
         $Serial = Decode $Monitor.SerialNumberID -notmatch 0
         
-        echo "Manufacturer: $Manufacturer`nName: $Name`nSerial Number: $Serial`n"
+        echo "`nManufacturer : $Manufacturer`nName         : $Name`nSerial Number: $Serial"
     }
     """]).decode("utf-8")
-    return result
+    return result.strip()
+
 
 # write variables to file
-output.write("------ Komputer: ------")
-output.write(model)
-output.write(serial)
-output.write("------ Monitor: ------\n")
+output.write("------ Komputer: ------\n")
+output.write(PcInfoScraper())
+# output.write(model.strip()+'\n')
+# output.write(serial.strip()+'\n')
+output.write("\n\n------ Monitory: ------\n")
 output.write(MonitorInfoScraper())
+
