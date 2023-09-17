@@ -3,7 +3,7 @@ from datetime import datetime
 
 # first messagebox
 def MessageBox():
-    mbox = ctypes.windll.user32.MessageBoxW(0, "Uruchomic skrypt?", "serial-scraper d-_-b", 3 | 0x40)
+    mbox = ctypes.windll.user32.MessageBoxW(0, "Uruchomic skrypt?", "serial-scraper d-_-b", 4 | 0x40)
     return mbox
 
 # second messagebox
@@ -78,9 +78,6 @@ def main():
         FinalBox()
         sys.exit()
     # NO case
-    elif (input == 7):
-        sys.exit()
-    # Cancel case
     else:
         sys.exit()
     
