@@ -14,9 +14,9 @@ def FinalBox():
 
 # get pc serial number and model
 def PcInfoScraper():
-    serial = subprocess.check_output('powershell.exe Get-WmiObject win32_bios | select Serialnumber | Format-Table -HideTableHeaders').decode("utf-8")
-    manufacturer = subprocess.check_output('powershell.exe Get-WmiObject win32_bios | select Manufacturer | Format-Table -HideTableHeaders').decode("utf-8")
-    model = subprocess.check_output('powershell.exe Get-CimInstance Win32_ComputerSystemProduct | Select Name | Format-Table -HideTableHeaders').decode("utf-8")
+    serial = subprocess.check_output('powershell.exe -WindowStyle Hidden Get-WmiObject win32_bios | select Serialnumber | Format-Table -HideTableHeaders').decode("utf-8")
+    manufacturer = subprocess.check_output('powershell.exe -WindowStyle Hidden Get-WmiObject win32_bios | select Manufacturer | Format-Table -HideTableHeaders').decode("utf-8")
+    model = subprocess.check_output('powershell.exe -WindowStyle Hidden Get-CimInstance Win32_ComputerSystemProduct | Select Name | Format-Table -HideTableHeaders').decode("utf-8")
     result = "Manufacturer : " + manufacturer.strip() + "\nModel        : " + model.strip() + "\nSerial       : " + serial.strip() + '\n'
     return result
                     
@@ -57,19 +57,19 @@ def output():
     output.write("------ Komputer: ------\n")
     output.write(PcInfoScraper())
     output.write("\n\n------ Monitory: ------\n")
-    output.write(MonitorInfoScraper())
+    output.write(MonitorInfoScraper().replace('\x00', ''))
     output.write("\n"*3 + "------   Czas:   ------\n")
     output.write(time())
 
 # main function
 def main():
-    input = MessageBox()
-
     # message boxes
     # Yes = 6
     # No = 7
     # Cancel = 2
     # Okcancel = 1
+
+    input = MessageBox()
 
     # OK case
     if (input == 6):
