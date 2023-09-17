@@ -2,17 +2,17 @@ import subprocess, sys, ctypes
 from datetime import datetime   
 
 # first messagebox
-def MessageBox():
+def message_box():
     mbox = ctypes.windll.user32.MessageBoxW(0, "Uruchomic skrypt?", "serial-scraper d-_-b", 4 | 0x40)
     return mbox
 
 # second messagebox
-def FinalBox():
+def final_box():
     mbox = ctypes.windll.user32.MessageBoxW(0, "Gotowe", "serial-scraper d-_-b", 0 | 0x40)
     return mbox
 
 # get pc serial number and model
-def PcInfoScraper():
+def scrape_pc_info():
     serial = subprocess.check_output('powershell.exe -WindowStyle Hidden Get-WmiObject win32_bios | select Serialnumber | Format-Table -HideTableHeaders').decode("utf-8")
     manufacturer = subprocess.check_output('powershell.exe -WindowStyle Hidden Get-WmiObject win32_bios | select Manufacturer | Format-Table -HideTableHeaders').decode("utf-8")
     model = subprocess.check_output('powershell.exe -WindowStyle Hidden Get-CimInstance Win32_ComputerSystemProduct | Select Name | Format-Table -HideTableHeaders').decode("utf-8")
@@ -20,7 +20,7 @@ def PcInfoScraper():
     return result
                     
 # get monitors serial and model name
-def MonitorInfoScraper():
+def scrape_monitor_info():
     result = subprocess.check_output(["powershell.exe", """
     function Decode {
         If ($args[0] -is [System.Array]) {
@@ -54,9 +54,9 @@ def output():
 
     # write variables to file
     output.write("------ Komputer: ------\n")
-    output.write(PcInfoScraper())
+    output.write(scrape_pc_info())
     output.write("\n\n------ Monitory: ------\n")
-    output.write(MonitorInfoScraper().replace('\x00', ''))
+    output.write(scrape_monitor_info().replace('\x00', ''))
     output.write("\n"*3 + "------   Czas:   ------\n")
     output.write(time())
 
@@ -68,14 +68,14 @@ def main():
     # Cancel = 2
     # Okcancel = 1
 
-    input = MessageBox()
+    input = message_box()
 
     # OK case
     if (input == 6):
-        PcInfoScraper()
-        MonitorInfoScraper()
+        scrape_pc_info()
+        scrape_monitor_info()
         output()
-        FinalBox()
+        final_box()
         sys.exit()
     # NO case
     else:
