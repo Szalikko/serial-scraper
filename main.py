@@ -29,3 +29,10 @@ def MonitorInfoScraper():
     }
     """]).decode("utf-8")
     return result
+
+# write variables to file
+output.write("------ Komputer: ------")
+output.write(model)
+output.write(serial)
+output.write("------ Monitor: ------\n")
+output.write(MonitorInfoScraper())
