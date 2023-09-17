@@ -1,6 +1,5 @@
-import subprocess
-from datetime import datetime
-import ctypes    
+import subprocess, sys, ctypes
+from datetime import datetime   
 
 # first messagebox
 def MessageBox():
@@ -77,13 +76,15 @@ def main():
         MonitorInfoScraper()
         output()
         FinalBox()
-        exit()
+        sys.exit()
     # NO case
     elif (input == 7):
-        exit()
+        sys.exit()
     # Cancel case
     else:
-        exit()
+        sys.exit()
     
-
+# main function
 main()
+
+# d-_-b
