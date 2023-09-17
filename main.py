@@ -2,13 +2,6 @@ import subprocess
 from datetime import datetime
 import ctypes    
 
-
-# message boxes
-# Yes = 6
-# No = 7
-# Cancel = 2
-# Okcancel = 1
-
 # first messagebox
 def MessageBox():
     mbox = ctypes.windll.user32.MessageBoxW(0, "Uruchomic skrypt?", "serial-scraper d-_-b", 3 | 0x40)
@@ -68,3 +61,29 @@ def output():
     output.write("\n"*3 + "------   Czas:   ------\n")
     output.write(time())
 
+# main function
+def main():
+    input = MessageBox()
+
+    # message boxes
+    # Yes = 6
+    # No = 7
+    # Cancel = 2
+    # Okcancel = 1
+
+    # OK case
+    if (input == 6):
+        PcInfoScraper()
+        MonitorInfoScraper()
+        output()
+        FinalBox()
+        exit()
+    # NO case
+    elif (input == 7):
+        exit()
+    # Cancel case
+    else:
+        exit()
+    
+
+main()
