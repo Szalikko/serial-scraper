@@ -41,8 +41,8 @@ def scrape_monitor_info():
     """]).decode("utf-8")
     return result.strip()
 
-# get time
-def time():
+# get time formatted
+def time_f():
     now = datetime.now()
     dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
     return dt_string
@@ -58,7 +58,7 @@ def output():
     output.write("\n\n------ Monitory: ------\n")
     output.write(scrape_monitor_info().replace('\x00', ''))
     output.write("\n"*3 + "------   Czas:   ------\n")
-    output.write(time())
+    output.write(time_f())
 
 # main function
 def main():
