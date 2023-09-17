@@ -3,6 +3,22 @@ from datetime import datetime
 import ctypes    
 
 
+# message boxes
+# Yes = 6
+# No = 7
+# Cancel = 2
+# Okcancel = 1
+
+# first messagebox
+def MessageBox():
+    mbox = ctypes.windll.user32.MessageBoxW(0, "Uruchomic skrypt?", "serial-scraper d-_-b", 3 | 0x40)
+    return mbox
+
+# second messagebox
+def FinalBox():
+    mbox = ctypes.windll.user32.MessageBoxW(0, "Gotowe", "serial-scraper d-_-b", 0 | 0x40)
+    return mbox
+
 # get pc serial number and model
 def PcInfoScraper():
     serial = subprocess.check_output('powershell.exe Get-WmiObject win32_bios | select Serialnumber | Format-Table -HideTableHeaders').decode("utf-8")
@@ -39,14 +55,16 @@ def time():
     dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
     return dt_string
 
-# create file for output
-output = open("output.txt", "w")
+# save all gathered data into output.txt
+def output():
+    # create file for output
+    output = open("output.txt", "w")
 
-# write variables to file
-output.write("------ Komputer: ------\n")
-output.write(PcInfoScraper())
-output.write("\n\n------ Monitory: ------\n")
-output.write(MonitorInfoScraper())
-output.write("\n"*3 + "------   Czas:   ------\n")
-output.write(time())
+    # write variables to file
+    output.write("------ Komputer: ------\n")
+    output.write(PcInfoScraper())
+    output.write("\n\n------ Monitory: ------\n")
+    output.write(MonitorInfoScraper())
+    output.write("\n"*3 + "------   Czas:   ------\n")
+    output.write(time())
 
